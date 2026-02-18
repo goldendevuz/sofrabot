@@ -5,8 +5,7 @@ from django.utils import timezone
 
 class BaseModel(models.Model):
     """
-    Abstract base model with UUID PK, timestamps, and common utilities.
-    All models should inherit from this class.
+    Abstract base model with UUID PK and timestamps.
     """
 
     id = models.UUIDField(
@@ -15,27 +14,16 @@ class BaseModel(models.Model):
         editable=False,
         unique=True,
     )
-    created = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name="Created At",
-        help_text="Timestamp when the object was created",
-    )
-    modified = models.DateTimeField(
-        auto_now=True,
-        verbose_name="Modified At",
-        help_text="Timestamp when the object was last modified",
-    )
+
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
 
     class Meta:
         abstract = True
-        ordering = ["-created"]  # Default ordering: newest first
+        ordering = ["-created"]
         get_latest_by = "created"
 
     def __str__(self):
-        """
-        Returns a string representation.
-        If the model has a 'name' or 'title' attribute, return it, else UUID.
-        """
         for attr in ["name", "title", "full_name"]:
             if hasattr(self, attr):
                 value = getattr(self, attr)
@@ -43,29 +31,33 @@ class BaseModel(models.Model):
                     return str(value)
         return str(self.id)
 
-    def save(self, *args, **kwargs):
-        """
-        Can be overridden in child models for custom pre-save behavior.
-        """
-        super().save(*args, **kwargs)
-
     @property
     def age_seconds(self):
-        """
-        Returns the age of the object in seconds since creation.
-        """
         return (timezone.now() - self.created).total_seconds()
 
-# Create your models here.
+
 class BotUser(BaseModel):
-    user_id = models.BigIntegerField(unique=True, null=True, blank=True)
+    user_id = models.BigIntegerField(
+        unique=True,
+        db_index=True,
+    )
+
     name = models.CharField(max_length=120)
-    username = models.CharField(max_length=120 )
+    username = models.CharField(
+        max_length=120,
+        blank=True,
+        null=True,
+    )
+
+    language = models.CharField(
+        max_length=10,
+        default="en",
+        db_index=True,
+    )
 
     class Meta:
-        verbose_name = "BOT USER"
-        verbose_name_plural = "BOT USERS"
-
+        verbose_name = "Bot User"
+        verbose_name_plural = "Bot Users"
 
     def __str__(self):
         return f"{self.name} ({self.username}) - ID: {self.user_id}"
