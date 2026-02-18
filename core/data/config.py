@@ -7,7 +7,7 @@ env = Env()
 
 IS_PROD = env.bool('IS_PROD')
 # .env file ni core/data ichida ochamiz
-if IS_PROD and os.path.exists('core/data/.env'):
+if not IS_PROD and os.path.exists('core/data/.env'):
     print('.env fayli topilmadi!')
     print('.env.example faylidan nusxa ko\'chirib shablonni o\'zizga moslang.')
     exit(1)
