@@ -25,7 +25,7 @@ async def command_start_handler(message: Message) -> None:
                                   name=message.from_user.full_name)
     # user={"is_user_created":False}
     if user["is_user_created"]==False:
-        await message.answer(f"Salom, {message.from_user.full_name}!\nSizni qayta ko'rib turganimizdan xursandmiz!",reply_markup=inline_menu)  
+        await message.answer(f"Salom, {message.from_user.full_name}!")  
     else:
         await message.answer(f"Xush kelibsiz, {message.from_user.full_name}!\n", reply_markup=main_menu)
 
