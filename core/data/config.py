@@ -4,15 +4,19 @@ from environs import Env
 
 #todo:Open environs kutubxonasi orqali env faylidagi malumotlarni olamiz
 env = Env()
+
+IS_PROD = env.bool('IS_PROD')
 # .env file ni core/data ichida ochamiz
-if not os.path.exists('core/data/.env'):
+if not IS_PROD and os.path.exists('core/data/.env'):
     print('.env fayli topilmadi!')
     print('.env.example faylidan nusxa ko\'chirib shablonni o\'zizga moslang.')
     exit(1)
 env.read_env()
 
 BOT_TOKEN = env.str('BOT_TOKEN')
-ADMINS = env.list("ADMINS")
+ADMIN_ID_LIST = env.str("ADMIN_ID_LIST").split(',')
+ADMIN_ID_LIST = [int(admin_id) for admin_id in ADMIN_ID_LIST]
+ADMINS = ADMIN_ID_LIST
 WEBHOOK_DOMAIN = env.str('WEBHOOK_DOMAIN')
 SECRET_KEY = env.str('SECRET_KEY')
 BASE_URL = env.str('BASE_URL')

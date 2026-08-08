@@ -17,19 +17,38 @@ ALLOWED_HOSTS = ["*"]
 
 # Application definition
 INSTALLED_APPS = [
+    'jazzmin',
+    # default apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+]
 
-    # 3rd party
+THIRD_APPS = {
+    'drf_material',
     'rest_framework',
-    
-    # my apps
+    'rest_framework.authtoken',
+    'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
+    'corsheaders',
+    'debug_toolbar',
+    'import_export',
+    "drf_standardized_errors",
+    'schema_viewer',
+    'drf_spectacular',
+    'drf_spectacular_sidecar',  # required for Django collectstatic discovery
+    'rest_framework_json_api',
+}
+
+LOCAL_APPS = [
     'webhook',
 ]
+
+INSTALLED_APPS += THIRD_APPS
+INSTALLED_APPS += LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

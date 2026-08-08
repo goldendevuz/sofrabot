@@ -38,7 +38,7 @@ ___
 2. **/reklama**   send ad to all users
 ___
 ### If you have questions for this project, join and ask to me: 
-*https://t.me/pipcoderuz* <br><br>
+*https://t.me/goldendevuz* <br><br>
 *11.11.2024 - Project is ready to use.*
 
 
